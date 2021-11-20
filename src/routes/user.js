@@ -1,0 +1,10 @@
+const user = require("express").Router();
+const apiRouter = require("./user/api");
+const loginRouter = require("./user/login");
+const pagesRouter = require("./user/pages");
+const registerRouter = require("./user/register");
+user.use("/api", apiRouter);
+user.use("/login", loginRouter);
+user.use("/pages", pagesRouter);
+user.use("/register", registerRouter);
+module.exports = user;
