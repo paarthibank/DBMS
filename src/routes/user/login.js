@@ -5,22 +5,16 @@ login.post("/", async (req, res) => {
     try {
         const { username, password } = req.body;
         // console.log(req.body);
-        if (!username || !password)
-            res.status(404).redirect("/").json({ message: "Fill all fields" });
+        if (!username || !password) return res.redirect("/");
         const user = await User.findOne({ username });
-        if (!user)
-            res.status(404).json({ message: "User not found" }).redirect("/");
+        if (!user) return res.redirect("/");
         if (!(await bcrypt.compare(password, user.password)))
-            res.json({ message: "Incorrect usename or password" }).redirect(
-                "/"
-            );
+            return res.redirect("/");
 
-        res.cookie("id", user._id).redirect("../user/pages/dashboard");
+        return res.cookie("id", user._id).redirect("../user/pages/dashboard");
     } catch (error) {
         if (error) console.log(error.message);
-        res.status(500)
-            .json({ message: "Server error. Try again later" })
-            .render("500");
+        return res.render("500");
     }
 });
 module.exports = login;

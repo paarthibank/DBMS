@@ -15,12 +15,10 @@ apiRoutes.post("/search", async (req, res) => {
             "moviesBooked.id"
         );
         const data = { movie: movies, user: user };
-        res.status(200).render("dashboard", data);
+        return res.render("dashboard", data);
     } catch (error) {
         console.log(error.mesage);
-        res.status(500)
-            .json({ message: "Server error, Try again later" })
-            .render("500");
+        return res.render("500");
     }
 });
 
@@ -29,25 +27,36 @@ apiRoutes.post("/book", async (req, res) => {
         console.log(req.body);
         const { seatNo, theatreId, movie } = req.body;
         const userId = req.cookies.id;
-        if (!seatNo || !theatreId || !movie || !userId)
-            res.status(404).redirect("../../dashboard");
+        if (seatNo == "NULL" || !theatreId || !movie || !userId)
+            return res
+                .cookie("message", "Seat No undefined")
+                .redirect("../pages/dashboard");
+
         const updateData = {
             id: movie,
             seat: seatNo,
             theatre: theatreId,
         };
-        const user = await User.findByIdAndUpdate(userId, {
-            $addToSet: { moviesBooked: updateData },
-        });
         const movies = await Movies.findOne({ _id: movie });
+
         for (let i = 0; i < movies.theatre.length; i++) {
             if (movies.theatre[i].id == theatreId) {
-                console.log("yess");
+                if (movies.theatre[i].seatsBlocked.includes(seatNo)) {
+                    return res
+                        .cookie("message", "Seat Already Booked")
+                        .redirect("../pages/dashboard");
+                }
                 movies.theatre[i].seatsBlocked.push(seatNo);
             }
         }
         await movies.save();
-        res.redirect("../../dashboard");
+        const user = await User.findByIdAndUpdate(userId, {
+            $addToSet: { moviesBooked: updateData },
+        });
+
+        return res
+            .cookie("message", "Ticket booked successfully")
+            .redirect("../pages/dashboard");
     } catch (error) {
         if (error) console.log(error);
         return res.render("500");

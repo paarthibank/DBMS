@@ -4,9 +4,7 @@ const bcrypt = require("bcrypt");
 register.post("/", async (req, res) => {
     try {
         console.log(req.body);
-        const { name, username, pwd, cnfpwd, mobile } = req.body;
-        if (pwd !== cnfpwd)
-            res.status(400).json("Incorrect username and password");
+        const { name, username, pwd, mobile } = req.body;
         const password = await bcrypt.hash(pwd, 10);
         const user = await User.create({
             name: name,
@@ -14,12 +12,10 @@ register.post("/", async (req, res) => {
             password: password,
             username: username,
         });
-        res.status(200).redirect("/");
+        return res.redirect("/");
     } catch (error) {
         console.log(error.message);
-        res.status(500)
-            .json({ message: "Server error, Try again later" })
-            .render("500");
+        return res.render("500");
     }
 });
 module.exports = register;

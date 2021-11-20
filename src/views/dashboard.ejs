@@ -61,7 +61,9 @@
                           <%}%>
                         </ul>
                         <div class="card-body">
-                          <button href="#" class="card-link btn btn-primary btn-block" >Logout</button>
+                            <form action="/user/logout" method="GET">
+                          <button href="#" class="card-link btn btn-primary btn-block" type="submit" action="/user/logout" method="GET">Logout</button>
+                        </form>
                         </div>
                       </div>
                   </div>
@@ -135,7 +137,7 @@
                               <label class="input-group-text" for="inputGroupSelect01">Options</label>
                             </div>
                             <select class="custom-select" id="inputGroupSelect01" name ="seatNo">
-                              <option selected>Choose your seat</option>
+                              <option value ="NULL" selected>Choose your seat</option>
                               <%for(let m=0;m<4;m++){ if(!movie[3*i+j].theatre[k].seatsBlocked.includes("A"+m)){%>
                                 <option value="A<%=m%>">A<%=m%></option>
                                 <%}%>
@@ -170,6 +172,10 @@
         </div>
         </div>
         </div>
+        <script>
+            if("<%=message%>")
+            alert("<%=message%>");
+        </script>
         <script
             src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
             integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

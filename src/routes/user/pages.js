@@ -6,9 +6,12 @@ pages.get("/dashboard", async (req, res) => {
     try {
         if (!req.cookies) res.redirect("../..");
         if (!mongoose.Types.ObjectId.isValid(req.cookies.id))
-            res.status(500)
-                .json({ message: "Server error. Try again later" })
-                .render("500");
+            return res.redirect("../..");
+        let message;
+        if (req.cookies.message) {
+            message = req.cookies.message;
+            res.clearCookie("message");
+        }
         const user = await User.findById(req.cookies.id)
             .populate("moviesBooked.id")
             .populate("moviesBooked.theatre");
@@ -16,33 +19,21 @@ pages.get("/dashboard", async (req, res) => {
         const data = {
             user: user,
             movie: movies,
+            message: message,
         };
-        console.log(user);
-        if (user) res.status(200).render("dashboard", data);
+        return res.render("dashboard", data);
     } catch (error) {
         if (error) console.log(error.message);
-        res.status(500)
-            .json({ message: "Server error. Try again later" })
-            .render("500");
+        return res.render("500");
     }
 });
-pages.get("/movies", async (req, res) => {
-    try {
-    } catch (error) {
-        if (error) console.log(error.message);
-        res.status(500)
-            .json({ message: "Server error. Try again later" })
-            .render("500");
-    }
-});
+
 pages.get("/signup", async (req, res) => {
     try {
         res.status(200).render("signup");
     } catch (error) {
         if (error) console.log(error.message);
-        res.status(500)
-            .json({ message: "Server error. Try again later" })
-            .render("500");
+        res.render("500");
     }
 });
 module.exports = pages;

@@ -15,7 +15,11 @@ app.set("views", path.join(__dirname + "/src/views"));
 app.use(express.static("public"));
 const user = require("./src/routes/user");
 
-app.get("/", async (req, res) => res.render("index"));
+app.get("/", async (req, res) => {
+    if (req.cookies && req.cookies.id)
+        return res.redirect("/user/pages/dashboard");
+    return res.render("index");
+});
 app.use("/user", user);
 
 app.listen(port, () => console.log(`server started at port ${port}`));
