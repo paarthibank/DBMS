@@ -1,6 +1,7 @@
 const Movies = require("../../database/models/movies");
 const User = require("../../database/models/user");
 const Theatre = require("../../database/models/theatre");
+const theatre = require("../../database/models/theatre");
 const apiRoutes = require("express").Router();
 
 apiRoutes.post("/search", async (req, res) => {
@@ -21,6 +22,32 @@ apiRoutes.post("/search", async (req, res) => {
         return res.render("500");
     }
 });
+
+apiRoutes.post("/bookseat", async (req, res) => {
+    try {
+        console.log(req.body);
+        const {theatreId, movie } = req.body;
+        const userId = req.cookies.id;
+        if (!theatreId || !movie || !userId)
+            return res
+                .cookie("message", "Seat No undefined")
+                .redirect("../pages/dashboard");
+            
+         const cmovie = await Movies.findById(movie);
+         let seatblocked ;
+         cmovie.theatre.forEach(element => {
+             if(element.id==theatreId){
+                 seatblocked =element.seatsBlocked;
+             }
+         });
+     
+        return res.render("bookseat",{seatblocked:seatblocked, movie:cmovie,movieId:movie,theatreId:theatreId});
+    } catch (error) {
+        if (error) console.log(error);
+        return res.render("500");
+    }
+});
+
 
 apiRoutes.post("/book", async (req, res) => {
     try {
@@ -54,12 +81,20 @@ apiRoutes.post("/book", async (req, res) => {
             $addToSet: { moviesBooked: updateData },
         });
 
-        return res
-            .cookie("message", "Ticket booked successfully")
-            .redirect("../pages/dashboard");
+        const cmovie = await Movies.findById(movie);
+        let seatblocked ;
+        cmovie.theatre.forEach(element => {
+            if(element.id==theatreId){
+                seatblocked =element.seatsBlocked;
+            }
+        });
+    
+       return res.render("bookseat",{seatblocked:seatblocked, movie:cmovie,movieId:movie,theatreId:theatreId});
     } catch (error) {
         if (error) console.log(error);
         return res.render("500");
     }
 });
+
+
 module.exports = apiRoutes;

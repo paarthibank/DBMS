@@ -8,6 +8,7 @@ login.post("/", async (req, res) => {
         if (!username || !password) return res.redirect("/");
         const user = await User.findOne({ username });
         if (!user) return res.redirect("/");
+        console.log(await bcrypt.compare(password, user.password));
         if (!(await bcrypt.compare(password, user.password)))
             return res.redirect("/");
 

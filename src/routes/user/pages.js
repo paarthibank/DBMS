@@ -36,4 +36,12 @@ pages.get("/signup", async (req, res) => {
         res.render("500");
     }
 });
+pages.get("/booker", async (req, res) => {
+    try {
+        res.status(200).render("bookseat");
+    } catch (error) {
+        if (error) console.log(error.message);
+        res.render("500");
+    }
+});
 module.exports = pages;
