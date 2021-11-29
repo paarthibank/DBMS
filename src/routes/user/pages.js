@@ -36,12 +36,4 @@ pages.get("/signup", async (req, res) => {
         res.render("500");
     }
 });
-pages.get("/seatbook", async (req, res) => {
-    try {
-        return res.status(200).render("seat", { otherDetails: req.body });
-    } catch (error) {
-        if (error) console.log(error.message);
-        res.render("500");
-    }
-});
 module.exports = pages;

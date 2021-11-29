@@ -16,8 +16,10 @@ const movieSchema = new mongoose.Schema({
                 {
                     seatsBlocked: [String],
                     time: String,
+                    _id: false,
                 },
             ],
+            _id: false,
         },
     ],
 });
