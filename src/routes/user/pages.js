@@ -30,7 +30,15 @@ pages.get("/dashboard", async (req, res) => {
 
 pages.get("/signup", async (req, res) => {
     try {
-        res.status(200).render("signup");
+        return res.status(200).render("signup");
+    } catch (error) {
+        if (error) console.log(error.message);
+        res.render("500");
+    }
+});
+pages.get("/seatbook", async (req, res) => {
+    try {
+        return res.status(200).render("seat", { otherDetails: req.body });
     } catch (error) {
         if (error) console.log(error.message);
         res.render("500");

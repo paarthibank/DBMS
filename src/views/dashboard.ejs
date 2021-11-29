@@ -138,18 +138,9 @@
                             </div>
                             <select class="custom-select" id="inputGroupSelect01" name ="seatNo">
                               <option value ="NULL" selected>Choose your seat</option>
-                              <%for(let m=0;m<4;m++){ if(!movie[3*i+j].theatre[k].seatsBlocked.includes("A"+m)){%>
-                                <option value="A<%=m%>">A<%=m%></option>
-                                <%}%>
-                                <%}%>
-                                <%for(let m=0;m<4;m++){ if(!movie[3*i+j].theatre[k].seatsBlocked.includes("B"+m)){%>
-                                    <option value="B<%=m%>">B<%=m%></option>
-                                    <%}%>
-                                    <%}%>
-                              <%for(let m=0;m<4;m++){ if(!movie[3*i+j].theatre[k].seatsBlocked.includes("C"+m)){%>
-                              <option value="C<%=m%>">C<%=m%></option>
-                              <%}%>
-                              <%}%>
+                              <%for(let p=0;p<movie[3*i+j].theatre[k].timings.length;p++){%>
+                                <option value="<%=movie[3*i+j].theatre[k].timings[p].time%>"><%=movie[3*i+j].theatre[k].timings[p].time%></option>
+                                <%}%>                              
                             </select>
                           </div>
                         </div>
