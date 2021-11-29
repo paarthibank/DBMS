@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const movieSchema = new mongoose.Schema({
-    name: String, //xyz
+    name: String,
     picUrl: String,
     noOfTickets: String,
     rating: String,
@@ -12,7 +12,14 @@ const movieSchema = new mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Theatre",
             },
-            seatsBlocked: [String],
+            timings: [
+                {
+                    seatsBlocked: [String],
+                    time: String,
+                    _id: false,
+                },
+            ],
+            _id: false,
         },
     ],
 });
