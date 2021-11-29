@@ -56,6 +56,7 @@
                           <li class="list-group-item">
                             Movie Name: <%=user.moviesBooked[n].id.name%><br>
                             Seat No: <%=user.moviesBooked[n].seat%><br>
+                            Timeslot: <%=user.moviesBooked[n].timeslot%><br>
                             Theatre: <%=user.moviesBooked[n].theatre.name%><br>
                           </li>
                           <%}%>
@@ -136,8 +137,8 @@
                             <div class="input-group-prepend">
                               <label class="input-group-text" for="inputGroupSelect01">Options</label>
                             </div>
-                            <select class="custom-select" id="inputGroupSelect01" name ="seatNo">
-                              <option value ="NULL" selected>Choose your seat</option>
+                            <select class="custom-select" id="inputGroupSelect01" name ="timeslot">
+                              <option value ="NULL" selected>Choose your date/time</option>
                               <%for(let p=0;p<movie[3*i+j].theatre[k].timings.length;p++){%>
                                 <option value="<%=movie[3*i+j].theatre[k].timings[p].time%>"><%=movie[3*i+j].theatre[k].timings[p].time%></option>
                                 <%}%>                              

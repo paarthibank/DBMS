@@ -19,61 +19,88 @@ apiRoutes.post("/search", async (req, res) => {
         return res.render("dashboard", data);
     } catch (error) {
         console.log(error.mesage);
-        return res.render("500");
+        return res.render("Error", {
+            message: "Its me not you",
+            redirect: "/",
+            code: "500",
+        });
     }
 });
 
 apiRoutes.post("/bookseat", async (req, res) => {
     try {
         console.log(req.body);
-        const {theatreId, movie } = req.body;
+        const { theatreId, movie, timeslot } = req.body;
         const userId = req.cookies.id;
-        if (!theatreId || !movie || !userId)
-            return res
-                .cookie("message", "Seat No undefined")
-                .redirect("../pages/dashboard");
-            
-         const cmovie = await Movies.findById(movie);
-         let seatblocked ;
-         cmovie.theatre.forEach(element => {
-             if(element.id==theatreId){
-                 seatblocked =element.seatsBlocked;
-             }
-         });
-     
-        return res.render("bookseat",{seatblocked:seatblocked, movie:cmovie,movieId:movie,theatreId:theatreId});
+        if (!theatreId || !movie || !userId || timeslot == "NULL")
+            return res.render("Error", {
+                message: "Select timeslot",
+                redirect: "/",
+                code: "400",
+            });
+        const cmovie = await Movies.findById(movie);
+        let seatblocked;
+        cmovie.theatre.forEach((element) => {
+            if (element.id == theatreId) {
+                element.timings.forEach((time) => {
+                    if (time.time == timeslot) seatblocked = time.seatsBlocked;
+                });
+            }
+        });
+        const data = {
+            seatblocked: seatblocked,
+            movie: cmovie,
+            movieId: movie,
+            theatreId: theatreId,
+            timeslot: timeslot,
+        };
+        console.log(data);
+
+        return res.render("bookseat", data);
     } catch (error) {
         if (error) console.log(error);
-        return res.render("500");
+        return res.render("Error", {
+            message: "Its me not you",
+            redirect: "/admin",
+            code: "500",
+        });
     }
 });
-
 
 apiRoutes.post("/book", async (req, res) => {
     try {
         console.log(req.body);
-        const { seatNo, theatreId, movie } = req.body;
+        const { seatNo, theatreId, movie, timeslot } = req.body;
         const userId = req.cookies.id;
         if (seatNo == "NULL" || !theatreId || !movie || !userId)
-            return res
-                .cookie("message", "Seat No undefined")
-                .redirect("../pages/dashboard");
+            return res.render("Error", {
+                message: "Seat no undefined",
+                redirect: "/",
+                code: "400",
+            });
 
         const updateData = {
             id: movie,
             seat: seatNo,
             theatre: theatreId,
+            timeslot: timeslot,
         };
         const movies = await Movies.findOne({ _id: movie });
 
         for (let i = 0; i < movies.theatre.length; i++) {
             if (movies.theatre[i].id == theatreId) {
-                if (movies.theatre[i].seatsBlocked.includes(seatNo)) {
-                    return res
-                        .cookie("message", "Seat Already Booked")
-                        .redirect("../pages/dashboard");
+                for (let j = 0; j < movies.theatre[i].timings.length; j++) {
+                    if (movies.theatre[i].timings[j].time == timeslot) {
+                        if (
+                            movies.theatre[i].timings[j].seatsBlocked.includes(
+                                seatNo
+                            )
+                        ) {
+                            return res.redirect("../pages/dashboard");
+                        }
+                        movies.theatre[i].timings[j].seatsBlocked.push(seatNo);
+                    }
                 }
-                movies.theatre[i].seatsBlocked.push(seatNo);
             }
         }
         await movies.save();
@@ -82,19 +109,31 @@ apiRoutes.post("/book", async (req, res) => {
         });
 
         const cmovie = await Movies.findById(movie);
-        let seatblocked ;
-        cmovie.theatre.forEach(element => {
-            if(element.id==theatreId){
-                seatblocked =element.seatsBlocked;
+        let seatblocked;
+        cmovie.theatre.forEach((element) => {
+            if (element.id == theatreId) {
+                element.timings.forEach((time) => {
+                    if (time.time == timeslot) seatblocked = time.seatsBlocked;
+                });
             }
         });
-    
-       return res.render("bookseat",{seatblocked:seatblocked, movie:cmovie,movieId:movie,theatreId:theatreId});
+        const data = {
+            seatblocked: seatblocked,
+            movie: cmovie,
+            movieId: movie,
+            theatreId: theatreId,
+            timeslot,
+        };
+        console.log(data);
+        return res.render("bookseat", data);
     } catch (error) {
         if (error) console.log(error);
-        return res.render("500");
+        return res.render("Error", {
+            message: "Its me not you",
+            redirect: "/admin",
+            code: "500",
+        });
     }
 });
-
 
 module.exports = apiRoutes;

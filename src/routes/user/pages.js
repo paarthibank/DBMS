@@ -4,9 +4,9 @@ const Movies = require("../../database/models/movies");
 const pages = require("express").Router();
 pages.get("/dashboard", async (req, res) => {
     try {
-        if (!req.cookies) res.redirect("../..");
+        if (!req.cookies) res.redirect("/");
         if (!mongoose.Types.ObjectId.isValid(req.cookies.id))
-            return res.redirect("../..");
+            return res.redirect("/");
         let message;
         if (req.cookies.message) {
             message = req.cookies.message;
@@ -24,7 +24,11 @@ pages.get("/dashboard", async (req, res) => {
         return res.render("dashboard", data);
     } catch (error) {
         if (error) console.log(error.message);
-        return res.render("500");
+        return res.render("Error", {
+            message: "Its me not you",
+            redirect: "/",
+            code: "500",
+        });
     }
 });
 
@@ -33,7 +37,11 @@ pages.get("/signup", async (req, res) => {
         return res.status(200).render("signup");
     } catch (error) {
         if (error) console.log(error.message);
-        res.render("500");
+        return res.render("Error", {
+            message: "Its me not you",
+            redirect: "/",
+            code: "500",
+        });
     }
 });
 pages.get("/booker", async (req, res) => {
@@ -41,7 +49,11 @@ pages.get("/booker", async (req, res) => {
         res.status(200).render("bookseat");
     } catch (error) {
         if (error) console.log(error.message);
-        res.render("500");
+        return res.render("Error", {
+            message: "Its me not you",
+            redirect: "/",
+            code: "500",
+        });
     }
 });
 module.exports = pages;

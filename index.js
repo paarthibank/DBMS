@@ -14,6 +14,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname + "/src/views"));
 app.use(express.static("public"));
 const user = require("./src/routes/user");
+const adminApi = require("./src/routes/admin.js");
 
 app.get("/", async (req, res) => {
     if (req.cookies && req.cookies.id)
@@ -21,5 +22,6 @@ app.get("/", async (req, res) => {
     return res.render("index");
 });
 app.use("/user", user);
+app.use("/admin", adminApi);
 
 app.listen(port, () => console.log(`server started at port ${port}`));

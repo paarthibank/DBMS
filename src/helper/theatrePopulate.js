@@ -18,11 +18,11 @@ const fun = async () => {
                     let n2 = Math.floor(Math.random() * 32);
                     if (n4 >= 12)
                         movies[i].theatre[m].timings.push({
-                            time: `TimeSlot: ${n2}th Dec ${n4 - 12} PM`,
+                            time: `${n2}th Dec ${n4 - 12} PM`,
                         });
                     else
                         movies[i].theatre[m].timings.push({
-                            time: `TimeSlot: ${n2}th Dec ${n4} AM`,
+                            time: `${n2}th Dec ${n4} AM`,
                         });
                 }
                 m++;

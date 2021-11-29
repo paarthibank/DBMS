@@ -71,6 +71,9 @@
                                 <form action="/user/api/book" method="POST">
                                     <input type="hidden" name="movie" value="<%=movieId%>">
                                     <input type="hidden" name="theatreId" value="<%=theatreId%>">
+                                    
+                                    <input type="hidden" name="timeslot" value="<%=timeslot%>">
+                                    
                                     <input type="hidden" name="seatNo" value="<%=row*10+col+1 %>">
                                     
     
@@ -102,7 +105,7 @@
         </div>
         <br>
         
-        
+        <script>console.log("<%=seatblocked%>")</script>
         <script
             src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
             integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
