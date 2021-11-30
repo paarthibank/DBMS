@@ -37,8 +37,15 @@
                     <div class="modal-content">
                         <div class="modal-header" style="padding-left: 225px">
                             <h5 class="modal-title">
-                                <%if(code==200){%>Success<%}%>
-                                <%if(code!=200){%>Sorry<%}%>
+                                <%if(code==200){%>
+                                <div class="alert alert-success" role="alert">
+                                    Success
+                                </div>
+                                <%}%> <%if(code!=200){%>
+                                <div class="alert alert-warning" role="alert">
+                                    Sorry
+                                </div>
+                                <%}%>
                             </h5>
                         </div>
                         <div class="modal-body">
@@ -59,6 +66,12 @@
         <script>
             $(document).ready(function () {
                 $("#exampleModal").modal("show");
+            });
+            $(document).ready(function () {
+                $("#exampleModal").modal({
+                    backdrop: "static",
+                    keyboard: false,
+                });
             });
         </script>
 
