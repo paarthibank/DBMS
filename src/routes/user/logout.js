@@ -4,7 +4,7 @@ logoutRouter.get("/", async (req, res) => {
         return res.clearCookie("id").redirect("..");
     } catch (err) {
         console.log(err);
-        return res.render("Error", {
+        return res.render("error", {
             message: "Its me not you",
             redirect: "/",
             code: "500",

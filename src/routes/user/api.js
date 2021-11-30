@@ -19,7 +19,7 @@ apiRoutes.post("/search", async (req, res) => {
         return res.render("dashboard", data);
     } catch (error) {
         console.log(error.mesage);
-        return res.render("Error", {
+        return res.render("error", {
             message: "Its me not you",
             redirect: "/",
             code: "500",
@@ -29,11 +29,10 @@ apiRoutes.post("/search", async (req, res) => {
 
 apiRoutes.post("/bookseat", async (req, res) => {
     try {
-        console.log(req.body);
         const { theatreId, movie, timeslot } = req.body;
         const userId = req.cookies.id;
         if (!theatreId || !movie || !userId || timeslot == "NULL")
-            return res.render("Error", {
+            return res.render("error", {
                 message: "Select timeslot",
                 redirect: "/",
                 code: "400",
@@ -54,12 +53,11 @@ apiRoutes.post("/bookseat", async (req, res) => {
             theatreId: theatreId,
             timeslot: timeslot,
         };
-        console.log(data);
 
         return res.render("bookseat", data);
     } catch (error) {
         if (error) console.log(error);
-        return res.render("Error", {
+        return res.render("error", {
             message: "Its me not you",
             redirect: "/admin",
             code: "500",
@@ -69,11 +67,10 @@ apiRoutes.post("/bookseat", async (req, res) => {
 
 apiRoutes.post("/book", async (req, res) => {
     try {
-        console.log(req.body);
         const { seatNo, theatreId, movie, timeslot } = req.body;
         const userId = req.cookies.id;
         if (seatNo == "NULL" || !theatreId || !movie || !userId)
-            return res.render("Error", {
+            return res.render("error", {
                 message: "Seat no undefined",
                 redirect: "/",
                 code: "400",
@@ -124,11 +121,10 @@ apiRoutes.post("/book", async (req, res) => {
             theatreId: theatreId,
             timeslot,
         };
-        console.log(data);
         return res.render("bookseat", data);
     } catch (error) {
         if (error) console.log(error);
-        return res.render("Error", {
+        return res.render("error", {
             message: "Its me not you",
             redirect: "/admin",
             code: "500",

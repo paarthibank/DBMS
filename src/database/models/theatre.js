@@ -4,6 +4,7 @@ const theatreSchema = new mongoose.Schema({
     location: String,
     username: String,
     password: String,
+    pic: String,
 });
 
 module.exports = mongoose.model("Theatre", theatreSchema);

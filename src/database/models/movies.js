@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const movieSchema = new mongoose.Schema({
     name: String,
     picUrl: String,
-    noOfTickets: String,
     rating: String,
     year: Number,
     theatre: [

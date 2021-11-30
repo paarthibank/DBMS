@@ -24,58 +24,116 @@
         />
     </head>
     <body style="margin: 10px;">
-        <div class="alert alert-dark" role="alert" style="text-align: center;">
-            <h3><%=adminDetail.name%></h3>
-            <i class="fa fa-home"></i> <%=adminDetail.location%>
-            <h6>Movie Ticket List</h6>
-            <form action="/admin/logout">
-<button type="submit" class="btn btn-dark">Logout</button></form>
-          </div>
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Mobile No</th>
-                    <th scope="col">Email Id</th>
-                    <th scope="col">Gender</th>
-                    <th scope="col">Movie List</th>
-                </tr>
-            </thead>
-            <tbody>
-                <%for(let i=0;i<userList.length;i++){%>
-                <tr>
-
-                    <th scope="row"><%=i+1%></th>
-                    <td><%=userList[i].name%></td>
-                    <td><%=userList[i].mobileNo%></td>
-                    <td><%=userList[i].username%></td>                    
-                    <td><%=userList[i].gender%></td>
-                    <td>
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Dropdown button
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <%for(let k=0;k<userList[i].moviesBooked.length;k++){  %>  
-                                    <div class="alert alert-primary"> 
-                                        <b>Movie Name</b>: <%=userList[i].moviesBooked[k].id.name%><br> <b>Date/Time:</b><%=userList[i].moviesBooked[k].timeslot%><br> <b>Seat No:</b><%=userList[i].moviesBooked[k].seat%><br>
-                                
-                                      </div>
-                               
-                                <%}%>
-                            </div>
-                          </div>
+        <div class="container-fluid">
+            <div class="row" >
+                <div class="col-3">
+                    <div class="alert alert-secondary" role="alert">
+                    <div class="card" style="width: 100%; height:fit-content; margin-top: 15%; padding: 15px;background-color: inherit;border-width: 5px;">
+                        <img class="card-img-top" src="<%=adminDetail.pic%>" alt="Cards image cap" height="200px">
                         
-                    
+                        <div class="card-body" style="text-align: center;">
+                            <h3><%=adminDetail.name%></h3>
+                          <p class="card-text"><i class="fa fa-home"></i> <%=adminDetail.location%></p>
+                        </div>                        
+                        
+                        <div class="card-body">
+                            <form action="/admin/logout">
+                                <button type="submit" class="btn btn-dark btn-block">Logout</button></form>
+                                          </div>
+                        </div>
+                      </div>
+                      <form action="/admin/addslot" method="post">
+                      <select class="form-control" name="movie">
+                          <%for(let i=0;i<movieList.length;i++){%>
+                        <option value="<%=movieList[i]._id%>"><%=movieList[i].name%></option>
+                        <%}%>
+                      </select>
+                      <br>
+                      <div class="row">
+                          <div class="col">
+                            <label  for="inlineFormCustomSelect">Date</label>
                             
+                      <select class="form-control" name="date">
+                        <%for(let i=1;i<32;i++){%>
+                        <option value="<%=i%>th Dec">Dec <%=i%></option>
+                        <%}%>
+                      </select>
+                      </div>
+                      <div class="col">
+                        <label  for="inlineFormCustomSelect">Timeslot</label>
+                           <select class="form-control" name="time">
 
-                </td>
-                </tr>
-                <%}%>
-                
-            </tbody>
-        </table>
+                        <%for(let i=1;i<13;i++){%>
+                            <option value="<%=i%> AM"><%=i%> AM</option>
+                            <%}%>
+                            <%for(let i=1;i<13;i++){%>
+                                <option value="<%=i%> PM"><%=i%> PM</option>
+                                <%}%>
+                      </select></div>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-dark btn-block">Add</button>
+                      </form>
+                    </div>
+
+
+                        
+                        
+                        
+                        
+              <div class="col-9">
+                  <h4 style="text-align: center;">Movie Ticket List</h4>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Mobile No</th>
+                            <th scope="col">Email Id</th>
+                            <th scope="col">Gender</th>
+                            <th scope="col">Movie List</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%for(let i=0;i<userList.length;i++){%>
+                        <tr>
+        
+                            <th scope="row"><%=i+1%></th>
+                            <td><%=userList[i].name%></td>
+                            <td><%=userList[i].mobileNo%></td>
+                            <td><%=userList[i].username%></td>                    
+                            <td><%=userList[i].gender%></td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Bookings
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <%for(let k=0;k<userList[i].moviesBooked.length;k++){  %>  
+                                            <div class="alert alert-primary"> 
+                                                <b>Movie Name</b>: <%=userList[i].moviesBooked[k].id.name%><br> <b>Date/Time:</b><%=userList[i].moviesBooked[k].timeslot%><br> <b>Seat No:</b><%=userList[i].moviesBooked[k].seat%><br>
+                                        
+                                              </div>
+                                       
+                                        <%}%>
+                                    </div>
+                                  </div>
+                                
+                            
+                                    
+        
+                        </td>
+                        </tr>
+                        <%}%>
+                        
+                    </tbody>
+                </table>
+              </div>
+              
+            </div>
+        </div>
+        
+        
         <script>
             src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
             integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

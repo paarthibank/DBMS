@@ -15,6 +15,7 @@ app.set("views", path.join(__dirname + "/src/views"));
 app.use(express.static("public"));
 const user = require("./src/routes/user");
 const adminApi = require("./src/routes/admin.js");
+const superadminApi = require("./src/routes/superadmin");
 
 app.get("/", async (req, res) => {
     if (req.cookies && req.cookies.id)
@@ -23,5 +24,6 @@ app.get("/", async (req, res) => {
 });
 app.use("/user", user);
 app.use("/admin", adminApi);
+app.use("/superadmin", superadminApi);
 
 app.listen(port, () => console.log(`server started at port ${port}`));

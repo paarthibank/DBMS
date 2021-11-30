@@ -24,7 +24,7 @@ pages.get("/dashboard", async (req, res) => {
         return res.render("dashboard", data);
     } catch (error) {
         if (error) console.log(error.message);
-        return res.render("Error", {
+        return res.render("error", {
             message: "Its me not you",
             redirect: "/",
             code: "500",
@@ -37,7 +37,7 @@ pages.get("/signup", async (req, res) => {
         return res.status(200).render("signup");
     } catch (error) {
         if (error) console.log(error.message);
-        return res.render("Error", {
+        return res.render("error", {
             message: "Its me not you",
             redirect: "/",
             code: "500",
@@ -49,7 +49,7 @@ pages.get("/booker", async (req, res) => {
         res.status(200).render("bookseat");
     } catch (error) {
         if (error) console.log(error.message);
-        return res.render("Error", {
+        return res.render("error", {
             message: "Its me not you",
             redirect: "/",
             code: "500",

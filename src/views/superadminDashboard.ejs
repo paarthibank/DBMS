@@ -36,71 +36,42 @@
             
         </style>
     </head>
-    <body style="padding: 30px">
-        <div class="container-fluid">
+    <body >
+        <div class="container" style="padding-top: 20px;">
+            <div class="alert alert-info" role="alert">
             <div class="row">
-                <div class="col-2" style="background-color: rgb(175, 81, 81); color: blanchedalmond; ">
-                    <div class="card" style="width: 100%; height:fit-content; margin-top: 15%; padding: 15px;">
-                        <%if(user.gender=="Male"){%>
-                        <img class="card-img-top" src="https://cdn-icons-png.flaticon.com/512/0/93.png" alt="Cards image cap" style="background-color: white;">
-                        <%}%>
-                        <%if(user.gender=="Female"){%>
-                            <img class="card-img-top" src="https://www.clipartmax.com/png/middle/296-2960595_female-profile-filled-icon-female-user-icon-png.png" alt="Cards image cap">
-                            <%}%>
-                        <div class="card-body" style="text-align: center;">
-                          <h4 class="card-title"><%=user.name%></h4>
-                          <p class="card-text"><%=user.username%></p>
-                        </div>                        
-                        <ul class="list-group list-group-flush" style="color: black;">
-                            <%for(let n=0;n<user.moviesBooked.length;n++){%>
-                          <li class="list-group-item">
-                            Movie Name: <%=user.moviesBooked[n].id.name%><br>
-                            Seat No: <%=user.moviesBooked[n].seat%><br>
-                            Timeslot: <%=user.moviesBooked[n].timeslot%><br>
-                            Theatre: <%=user.moviesBooked[n].theatre.name%><br>
-                          </li>
-                          <%}%>
-                        </ul>
-                        <div class="card-body">
-                            <form action="/user/logout" method="GET">
-                          <button href="#" class="card-link btn btn-primary btn-block" type="submit" action="/user/logout" method="GET">Logout</button>
-                        </form>
-                        </div>
-                      </div>
+                <div class="col-10" style="text-align: center;">
+                    <h3>Super Admin</h3>
                   </div>
-                  <div class="col">
-                    <form action="/user/api/search" method="post">
-            <div class="input-group mb-3">
-                <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Search"
-                    aria-label="Search"
-                    aria-describedby="search"
-                    id="search"
-                    name="search"
-                />
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="submit">
-                        Button
-                    </button>
-                </div>
+                <div class="col">
+                <form action="/superadmin/logout">
+                    <button type="submit" class="btn btn-dark">Logout</button>
+                </form>
             </div>
-            
-        </form>
+            </div>
+        </div>
+            <div class="row">
+                
+                  <div class="col">
+
+                    
+
+                    
+        
             <%for(let i=0;i<(movie.length)/3;i++){%>
                     <%for(let j=0;j<3;j++){%>
             <%if(3*i+j<(movie.length)){%>
-                <div class="card" style="width: 20rem; height: fit-content; float: left; margin: 20px;">
-                    <img class="card-img-top" src="<%=movie[(3*i)+j].picUrl%>" alt="Card image cap" height="400px" width="100px" />
-                    <div class="card-body" style="color: rgb(226, 204, 255);">
-                        <div style="height: 40px;">
-                        <h6 class="card-title" style="color:rgb(255, 255, 255)"><%=movie[3*i+j].name%></h6></div>
-                        <div style="height: 60px;">
+            <div class="card" style="width: 20rem; height: fit-content; float: left; margin: 20px;">
+                <img class="card-img-top" src="<%=movie[(3*i)+j].picUrl%>" alt="Card image cap" height="400px" width="100px" />
+                <div class="card-body" style="color: rgb(226, 204, 255);">
+                    <div style="height: 40px;">
+                    <h6 class="card-title" style="color:rgb(255, 255, 255)"><%=movie[3*i+j].name%></h6></div>
+                    <div style="height: 60px;">
                     Rating : <%=movie[3*i+j].rating%>
                         <br>
                         Year : <%=movie[3*i+j].year%>
-                        </div>
+                        <br>
+                    </div>
                     
                     <%for(let k=0;k<movie[3*i+j].theatre.length;k++){%>
                         
@@ -128,19 +99,13 @@
                                 color: blanchedalmond;
                             "
                         >
-                        <form action="/user/api/bookseat" method="POST">
-                            <input type="hidden" name ="theatreId" value="<%=movie[3*i+j].theatre[k].id._id%>">
-                            
-                            <input type="hidden" name="movie" value="<%=movie[3*i+j]._id%>">
-                            
-                            <input type="hidden" value="<%=movie[3*i+j].theatre.id._id%>">
                         Location : <%=movie[3*i+j].theatre[k].id.location%>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                               <label class="input-group-text" for="inputGroupSelect01">Options</label>
                             </div>
                             <select class="custom-select" id="inputGroupSelect01" name ="timeslot">
-                              <option value ="NULL" selected>Choose your date/time</option>
+                              <option value ="NULL" selected>List of date/time</option>
                               <%for(let p=0;p<movie[3*i+j].theatre[k].timings.length;p++){%>
                                 <option value="<%=movie[3*i+j].theatre[k].timings[p].time%>"><%=movie[3*i+j].theatre[k].timings[p].time%></option>
                                 <%}%>                              
@@ -148,9 +113,7 @@
                           </div>
                         </div>
                         
-                    <button type="submit" class="btn btn-dark" style="margin-top: 10px;">Book Ticket</button>
                     
-                </form>
                     </div>
                     
                     <%}%>
@@ -163,6 +126,20 @@
             <%}%>
                 
             <%}%>
+            <a href="/superadmin/addmovie">
+                <div class="card" style="width: 20rem; height: fit-content; float: left; margin: 20px;">
+                    <div class="card-title" style="text-align: center;"><div class="alert alert-dark" role="alert"><h3>Add Movie</h3>
+                      </div></div>
+                    <div class="card-body">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18rem" height="250" fill="white" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                          </svg>
+    
+                        
+                    </div>
+                
+                </div>
+                </a>
         </div>
         </div>
         </div>
